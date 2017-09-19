@@ -1,9 +1,11 @@
 Package: arlab4
 Type: Package
-Title: What the package does (short line)
+Title: Linear Regression
 Version: 1.0
 Date: 2017-09-19
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Author: Josh Hyungyum Kim, Ramazan Kartal
+Maintainer: Josh Hyungyum Kim <gyommy15@gmail.com>
 Description: More about what it does (maybe more than one line)
-License: What license is it under?
+License: MIT
+LazyData: True
+Suggests: testthat
