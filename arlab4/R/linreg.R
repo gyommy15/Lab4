@@ -12,14 +12,13 @@
 #formula=Petal.Length~Sepal.Width+Sepal.Length
 #data=iris
 #linreg_mod <- linreg$new(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
-#
 
 linreg <- setRefClass("linreg", 
   fields = list(formula="formula",
                 data="data.frame",
                 reg_coe="matrix",
-                fit_val="numeric",
-                residu="numeric",
+                fit_val="matrix",
+                residu="matrix",
                 dof="numeric",
                 res_var="matrix",
                 var_reg_coe="matrix",
@@ -42,18 +41,13 @@ linreg <- setRefClass("linreg",
       X <- model.matrix(formula, data)
       
       reg_coe <<- solve((t(X)%*%X))%*%t(X)%*%y
-      output_reg_coe <- data.frame(t(reg_coe)[1,])
-
-      # model1 <- lm(y ~ X+0, data = data)
-      # 
-      # reg_coe <<- model1$coefficients
-      # fit_val <<- model1$fitted.values
-      # residu <<- model1$residuals
+      fit_val <<- X%*%reg_coe
+      residu <<- y-fit_val
       # dof <<- model1$df.residual
       # res_var <<- (t(residu)%*%residu)/dof
       # var_reg_coe <<- var(reg_coe)
       # t_val <<- reg_coe/sd(reg_coe)
-      
+       
     },
     
     print = function(){
@@ -66,10 +60,30 @@ linreg <- setRefClass("linreg",
     
     plot = function(){
       
+      ggplot(data.frame(fit_val,residu),aes(y=residu,x=fit_val)) + geom_point()
+      
+
+    },
+    
+    resid = function(){
+      "Return the vector of residuals e"
+      return(residu) 
+    },
+    
+    pred = function(){
+      "Return the predicted values y_hat"
+      return(fit_val)
+    },
+    
+    coef = function(){
+      "Return the coefficients as a named vector"
+      return(reg_coe)
+    },
+    
+    summary = function(){
+      ""
       
       
     }
-
-    
   )
   )

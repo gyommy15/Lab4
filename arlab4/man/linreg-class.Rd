@@ -16,6 +16,12 @@ Class for the convenient multiple linear regression
 \section{Methods}{
 
 \describe{
+\item{\code{coef()}}{Return the coefficients as a named vector}
+
+\item{\code{pred()}}{Return the predicted values y_hat}
+
 \item{\code{print()}}{Print out the coefficients and coefficient names}
+
+\item{\code{resid()}}{Return the vector of residuals e}
 }}
 
