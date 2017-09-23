@@ -1,3 +1,13 @@
+#'A multiple regression model (RC)
+#'
+#'@description  
+#'
+#'@param formula Contains dependent and independent variables for linear regression
+#'@param data A data.frame to conduct linear regression
+#'
+#'@exportClass linreg
+#'@export linreg
+
 linreg <- setRefClass("linreg", 
   fields = list(formula="formula",
                 data="data.frame",
@@ -5,7 +15,7 @@ linreg <- setRefClass("linreg",
                 fit_val="numeric",
                 residu="numeric",
                 dof="numeric",
-                res_var="numeric",
+                res_var="matrix",
                 var_reg_coe="numeric",
                 t_val="numeric"),
   
@@ -15,8 +25,10 @@ linreg <- setRefClass("linreg",
       formula <<- formula
       data <<- data
       
+      get_y <- all.vars(formula)[1]
+      
       X <- model.matrix(formula, data)
-      y <- all.vars(formula)
+      y <- data[[get_y]]
       
       model1 <- lm(y ~ X, data = data)
       
@@ -29,17 +41,16 @@ linreg <- setRefClass("linreg",
       t_val <<- reg_coe/sd(reg_coe)
       
     },
+    
     print = function(){
       "Print out the coefficients and coefficient names"
       cat("Call: /n")
       cat(paste0("linreg(formula = ", format(formula),", data = ", format(data),")\n\n"))
       cat("Coefficients: /n")
       reg_coe
-      
+
     }
-    
-    
-        
+
     
   )
   )
