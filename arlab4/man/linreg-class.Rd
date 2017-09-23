@@ -11,6 +11,11 @@
 \item{data}{A data.frame to conduct linear regression}
 }
 \description{
-A multiple regression model (RC)
+Class for the convenient multiple linear regression
 }
+\section{Methods}{
+
+\describe{
+\item{\code{print()}}{Print out the coefficients and coefficient names}
+}}
 
