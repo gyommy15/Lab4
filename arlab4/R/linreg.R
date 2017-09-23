@@ -7,21 +7,23 @@
 #'
 #'@exportClass linreg
 #'@export linreg
+#'@import ggplot2
 #
 #formula=Petal.Length~Sepal.Width+Sepal.Length
 #data=iris
+#linreg_mod <- linreg$new(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
 #
 
 linreg <- setRefClass("linreg", 
   fields = list(formula="formula",
                 data="data.frame",
-                reg_coe="numeric",
+                reg_coe="matrix",
                 fit_val="numeric",
                 residu="numeric",
                 dof="numeric",
                 res_var="matrix",
-                var_reg_coe="numeric",
-                t_val="numeric",
+                var_reg_coe="matrix",
+                t_val="matrix",
                 data_name="character"),
   
   methods = list(
@@ -39,15 +41,18 @@ linreg <- setRefClass("linreg",
       y <- data[[get_y]]
       X <- model.matrix(formula, data)
       
-      model1 <- lm(y ~ X+0, data = data)
-      
-      reg_coe <<- model1$coefficients
-      fit_val <<- model1$fitted.values
-      residu <<- model1$residuals
-      dof <<- model1$df.residual
-      res_var <<- (t(residu)%*%residu)/dof
-      var_reg_coe <<- var(reg_coe)
-      t_val <<- reg_coe/sd(reg_coe)
+      reg_coe <<- solve((t(X)%*%X))%*%t(X)%*%y
+      output_reg_coe <- data.frame(t(reg_coe)[1,])
+
+      # model1 <- lm(y ~ X+0, data = data)
+      # 
+      # reg_coe <<- model1$coefficients
+      # fit_val <<- model1$fitted.values
+      # residu <<- model1$residuals
+      # dof <<- model1$df.residual
+      # res_var <<- (t(residu)%*%residu)/dof
+      # var_reg_coe <<- var(reg_coe)
+      # t_val <<- reg_coe/sd(reg_coe)
       
     },
     
@@ -56,12 +61,15 @@ linreg <- setRefClass("linreg",
       cat("Call: \n ")
       cat(paste0("linreg(formula = ",format(formula),", data = ",data_name,")\n\n"))
       cat("Coefficients: \n")
-      reg_coe
-
+      t(reg_coe)[1,]
+    },
+    
+    plot = function(){
+      
+      
+      
     }
 
     
   )
   )
-
-linreg_mod <- linreg$new(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
