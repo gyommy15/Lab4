@@ -56,8 +56,8 @@ linreg <- setRefClass("linreg",
       cat("Call: \n ")
       cat(paste0("linreg(formula = ",format(formula),", data = ",data_name,")\n\n"))
       cat("Coefficients: \n")
-      cat(" ",row.names(reg_coe), "\n       ", sep = "  ")
-      cat(t(reg_coe), sep="      ")
+      cat(" ",row.names(reg_coe), "\n    ", sep = "  ")
+      cat(t(reg_coe), sep="    ")
      
     },
     
@@ -94,7 +94,7 @@ linreg <- setRefClass("linreg",
           panel.border = element_rect(fill = NA),
           
           #caption color Liu_base color 2
-          plot.caption = element_text(color="#17c7d2", face="bold", size="9"),
+          plot.caption = element_text(color="#17c7d2", face="bold", size="9")
         ) 
       
       #plot1
