@@ -21,7 +21,7 @@ linreg <- setRefClass("linreg",
                 residu="matrix",
                 dof="numeric",
                 res_var="matrix",
-                var_reg_coe="matrix",
+                var_reg_coe="numeric",
                 t_val="matrix",
                 data_name="character"),
   
@@ -46,8 +46,8 @@ linreg <- setRefClass("linreg",
       
       dof <<- length(y) - length(all.vars(formula))
       res_var <<- (t(residu)%*%residu)/dof
-      var_reg_coe <<- var(solve((t(X)%*%X)))
-      t_val <<- reg_coe/sd(reg_coe)
+      var_reg_coe <<- diag(as.numeric(res_var)*solve(t(X)%*%X))
+      t_val <<- reg_coe/sqrt(var_reg_coe)
        
     },
     
@@ -60,6 +60,8 @@ linreg <- setRefClass("linreg",
     },
     
     plot = function(){
+      "Plot Residuals vs Fitted graph & Scale-Location graph"
+      
       library(ggplot2)
       
       #plot1
@@ -94,9 +96,20 @@ linreg <- setRefClass("linreg",
     },
     
     summary = function(){
-      ""
+      "Simplified summary of the linear model"
       
+      #p_value calculation
+      p_val <- 2*pt(abs(t_val),dof,lower.tail = FALSE)
       
+      reg_coe_edit <- matrix(NA, 3,3)
+      reg_coe <<- cbind(reg_coe, reg_coe_edit)
+      colnames(reg_coe) <<- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
+      reg_coe[,2] <<- sqrt(var_reg_coe)
+      reg_coe[,3] <<- t_val
+      reg_coe[,4] <<- p_val
+      
+      cat("Residual standard error:",format(sd(residu)), "on 147 degrees of freedom\n\n")
+      reg_coe
     }
   )
   )
