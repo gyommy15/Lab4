@@ -1,7 +1,8 @@
 ## ----setup, include = FALSE----------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  library(gridExtra)
 )
 
 ## ---- echo=FALSE, eval=TRUE----------------------------------------------
