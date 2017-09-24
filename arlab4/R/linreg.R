@@ -67,21 +67,53 @@ linreg <- setRefClass("linreg",
       library(ggplot2)
       library(gridExtra)
       
+      liu_theme <- 
+        theme(
+          #margin setting
+          plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"),
+          
+          #color codes from: https://html-color.codes/hex
+          
+          #background color Liu-base color 9
+          panel.background = element_rect(fill="#a5f0e4"),
+          
+          #delete grid lines
+          panel.grid.major.y = element_blank(),
+          panel.grid.minor.y = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.minor.x = element_blank(),
+          
+          #text color of title and axis Liu-accent color 1
+          plot.title = element_text(color="#ff6442", face = "bold", size="12"),
+          axis.title.x = element_text(color="#ff6442", size="12"),
+          axis.title.y = element_text(color="#ff6442", size="12"),
+          axis.text.x = element_text(color="#ff6442", size="9"),
+          axis.text.y = element_text(color="#ff6442", size="9"),
+          
+          #border setting
+          panel.border = element_rect(fill = NA),
+          
+          #caption color Liu_base color 2
+          plot.caption = element_text(color="#17c7d2", face="bold", size="9"),
+        ) 
+      
       #plot1
       plot1 <- ggplot(data.frame(fit_val,residu),aes(y=residu,x=fit_val)) + geom_point() + #graph + scatter plot
         xlab(paste("Fitted values\n", "lm(",format(formula),")")) + 
         ylab("Residuals")+ ggtitle("Residuals vs Fitted") + 
-        geom_smooth(span = 2,colour="red",method="loess",se=FALSE) + 
-        theme(plot.title = element_text(hjust = 0.5)) #Title center alignment
-      
+        geom_smooth(span = 2,colour="red",method="loess",se=FALSE) + labs(caption="2017 LiU") +
+        theme(plot.title = element_text(hjust = 0.5)) + #Title center alignment
+        liu_theme #Theme added
+        
       #plot2
       std_res <- residu/sd(residu)
       plot2 <- ggplot(data.frame(fit_val,std_res),aes(y=std_res,x=fit_val)) + geom_point() + #graph + scatter plot
         xlab(paste("Fitted values\n", "lm(",format(formula),")")) +
         ylab(expression(sqrt(abs("Standardized residuals")))) + ggtitle("Scale-Location") +
-        geom_smooth(span = 2,colour="red",method="loess",se=FALSE) +
-        theme(plot.title = element_text(hjust = 0.5)) #Title center alignment
-      
+        geom_smooth(span = 2,colour="red",method="loess",se=FALSE) + labs(caption="2017 LiU") +
+        theme(plot.title = element_text(hjust = 0.5)) + #Title center alignment
+        liu_theme #Theme added
+        
       grid.arrange(plot1, plot2, ncol=2)
       
     },
