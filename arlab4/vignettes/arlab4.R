@@ -1,8 +1,7 @@
 ## ----setup, include = FALSE----------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  library(gridExtra)
+  comment = "#>"
 )
 
 ## ---- echo=FALSE, eval=TRUE----------------------------------------------
@@ -102,7 +101,6 @@ linreg <- setRefClass("linreg",
       "Plotting Residuals vs Fitted graph & Scale-Location graph"
       
       library(ggplot2)
-      library(gridExtra)
       
       liu_theme <- 
         theme(
@@ -151,7 +149,7 @@ linreg <- setRefClass("linreg",
         theme(plot.title = element_text(hjust = 0.5)) + #Title center alignment
         liu_theme #Theme added
         
-      grid.arrange(plot1, plot2, ncol=2)
+      return(list(plot1,plot2))
     }
   )
   )
