@@ -61,9 +61,21 @@ linreg <- setRefClass("linreg",
     
     plot = function(){
       library(ggplot2)
-      ggplot(data.frame(fit_val,residu),aes(y=residu,x=fit_val)) + geom_point()
       
-
+      #plot1
+      ggplot(data.frame(fit_val,residu),aes(y=residu,x=fit_val)) + geom_point() + #graph + scatter plot
+        xlab(paste("Fitted values\n", "lm(",format(formula),")")) + 
+        ylab("Residuals")+ ggtitle("Residuals vs Fitted") + 
+        geom_smooth(span = 2,colour="red",method="loess",se=FALSE) + 
+        theme(plot.title = element_text(hjust = 0.5)) #Title center alignment
+      
+      #plot2
+      std_res <- residu/sd(residu)
+      ggplot(data.frame(fit_val,std_res),aes(y=std_res,x=fit_val)) + geom_point() + #graph + scatter plot
+        xlab(paste("Fitted values\n", "lm(",format(formula),")")) + 
+        ylab(expression(sqrt(abs("Standardized residuals")))) + ggtitle("Scale-Location") + 
+        geom_smooth(span = 2,colour="red",method="loess",se=FALSE) + 
+        theme(plot.title = element_text(hjust = 0.5)) #Title center alignment
     },
     
     resid = function(){
