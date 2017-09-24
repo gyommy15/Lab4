@@ -104,22 +104,20 @@ linreg <- setRefClass("linreg",
       #p_value calculation
       p_val <- 2*pt(abs(t_val),dof,lower.tail = FALSE)
       
+      #organizing table
       reg_coe_edit <- matrix(NA, nrow=3, ncol=4)
       reg_coe <<- cbind(reg_coe, reg_coe_edit)
-      colnames(reg_coe) <<- c("Estimate", "Std. Error", "t value", "Pr(>|t|)", "")
-      
       reg_coe[,2] <<- sqrt(var_reg_coe)
       reg_coe[,3] <<- t_val
       reg_coe[,4] <<- p_val
       reg_coe[,5] <<- "***"
-      
-      cat("          ", colnames(reg_coe), "\n", sep = "  ")
+
+      cat("          ", c("Estimate", "Std. Error", "t value", "Pr(>|t|)", ""), "\n", sep = "  ")
       for(i in 1:length(all.vars(formula))){
-      cat(row.names(reg_coe)[i], reg_coe[i,], "\n")
+      cat(row.names(reg_coe)[i], reg_coe[i,], "\n", sep = " ")
       }
-      
+
       cat("\nResidual standard error:",format(sd(residu)), "on 147 degrees of freedom\n\n")
-      dimnames(reg_coe)
       }
   )
   )
