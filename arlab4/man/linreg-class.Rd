@@ -18,10 +18,14 @@ Class for the convenient multiple linear regression
 \describe{
 \item{\code{coef()}}{Return the coefficients as a named vector}
 
+\item{\code{plot()}}{Plotting Residuals vs Fitted graph & Scale-Location graph}
+
 \item{\code{pred()}}{Return the predicted values y_hat}
 
 \item{\code{print()}}{Print out the coefficients and coefficient names}
 
 \item{\code{resid()}}{Return the vector of residuals e}
+
+\item{\code{summary()}}{Simplified summary of the linear model}
 }}
 

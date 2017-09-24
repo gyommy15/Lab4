@@ -53,14 +53,17 @@ linreg <- setRefClass("linreg",
     
     print = function(){
       "Print out the coefficients and coefficient names"
+      
       cat("Call: \n ")
       cat(paste0("linreg(formula = ",format(formula),", data = ",data_name,")\n\n"))
       cat("Coefficients: \n")
-      t(reg_coe)[1,]
+      cat(" ",row.names(reg_coe), "\n       ", sep = "  ")
+      cat(t(reg_coe), sep="      ")
+     
     },
     
     plot = function(){
-      "Plot Residuals vs Fitted graph & Scale-Location graph"
+      "Plotting Residuals vs Fitted graph & Scale-Location graph"
       
       library(ggplot2)
       
@@ -74,9 +77,9 @@ linreg <- setRefClass("linreg",
       #plot2
       std_res <- residu/sd(residu)
       ggplot(data.frame(fit_val,std_res),aes(y=std_res,x=fit_val)) + geom_point() + #graph + scatter plot
-        xlab(paste("Fitted values\n", "lm(",format(formula),")")) + 
-        ylab(expression(sqrt(abs("Standardized residuals")))) + ggtitle("Scale-Location") + 
-        geom_smooth(span = 2,colour="red",method="loess",se=FALSE) + 
+        xlab(paste("Fitted values\n", "lm(",format(formula),")")) +
+        ylab(expression(sqrt(abs("Standardized residuals")))) + ggtitle("Scale-Location") +
+        geom_smooth(span = 2,colour="red",method="loess",se=FALSE) +
         theme(plot.title = element_text(hjust = 0.5)) #Title center alignment
     },
     
@@ -101,15 +104,22 @@ linreg <- setRefClass("linreg",
       #p_value calculation
       p_val <- 2*pt(abs(t_val),dof,lower.tail = FALSE)
       
-      reg_coe_edit <- matrix(NA, 3,3)
+      reg_coe_edit <- matrix(NA, nrow=3, ncol=4)
       reg_coe <<- cbind(reg_coe, reg_coe_edit)
-      colnames(reg_coe) <<- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
+      colnames(reg_coe) <<- c("Estimate", "Std. Error", "t value", "Pr(>|t|)", "")
+      
       reg_coe[,2] <<- sqrt(var_reg_coe)
       reg_coe[,3] <<- t_val
       reg_coe[,4] <<- p_val
+      reg_coe[,5] <<- "***"
       
-      cat("Residual standard error:",format(sd(residu)), "on 147 degrees of freedom\n\n")
-      reg_coe
-    }
+      cat("          ", colnames(reg_coe), "\n", sep = "  ")
+      for(i in 1:length(all.vars(formula))){
+      cat(row.names(reg_coe)[i], reg_coe[i,], "\n")
+      }
+      
+      cat("\nResidual standard error:",format(sd(residu)), "on 147 degrees of freedom\n\n")
+      dimnames(reg_coe)
+      }
   )
   )
