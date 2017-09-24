@@ -7,7 +7,6 @@
 #'
 #'@exportClass linreg
 #'@export linreg
-#'@import ggplot2
 #
 #formula=Petal.Length~Sepal.Width+Sepal.Length
 #data=iris
