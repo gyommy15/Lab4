@@ -8,5 +8,8 @@ Maintainer: Josh Hyungyum Kim <gyommy15@gmail.com>
 Description: More about what it does (maybe more than one line)
 License: MIT
 LazyData: True
-Suggests: testthat, ggplot2
+Suggests: testthat, ggplot2,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.0.1
+VignetteBuilder: knitr
