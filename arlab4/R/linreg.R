@@ -43,10 +43,11 @@ linreg <- setRefClass("linreg",
       reg_coe <<- solve((t(X)%*%X))%*%t(X)%*%y
       fit_val <<- X%*%reg_coe
       residu <<- y-fit_val
-      # dof <<- model1$df.residual
-      # res_var <<- (t(residu)%*%residu)/dof
-      # var_reg_coe <<- var(reg_coe)
-      # t_val <<- reg_coe/sd(reg_coe)
+      
+      dof <<- length(y) - length(all.vars(formula))
+      res_var <<- (t(residu)%*%residu)/dof
+      var_reg_coe <<- var(solve((t(X)%*%X)))
+      t_val <<- reg_coe/sd(reg_coe)
        
     },
     
@@ -59,7 +60,7 @@ linreg <- setRefClass("linreg",
     },
     
     plot = function(){
-      
+      library(ggplot2)
       ggplot(data.frame(fit_val,residu),aes(y=residu,x=fit_val)) + geom_point()
       
 
